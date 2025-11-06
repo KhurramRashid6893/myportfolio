@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Khurram Rashid</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <header>
+    <h1>Contact Me</h1>
+    <p>Let's connect and collaborate!</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/contact">Contact</a>
+      <a href="/gallery">Gallery</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Get in Touch</h2>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:khurramrashid0786@gmail.com">khurramrashid0786@gmail.com</a></li>
+        <li><strong>Phone:</strong> +91 9572879392</li>
+        <li><strong>Location:</strong> Bhatan, Panvel, Navi Mumbai, Maharashtra 410206</li>
+        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/khurram-rashid" target="_blank">linkedin.com/in/khurram-rashid</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Resume</h2>
+      <p>
+        You can <a href="{{ url_for('static', filename='resume/khurram_rashid_resume.pdf') }}" download>click here</a> to download my resume in PDF format.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Khurram Rashid</p>
+  </footer>
+</body>
+</html>

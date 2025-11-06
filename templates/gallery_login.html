@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery Login | Khurram Rashid</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gallery.css') }}" />
+</head>
+<body>
+  <header>
+    <h1>Gallery Access</h1>
+    <p>This section is password protected.</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/experience">Experience</a>
+      <a href="/contact">Contact</a>
+      <a href="/gallery">Gallery</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="login-container">
+      <h2>Enter Security Code</h2>
+      
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      
+      <form action="{{ url_for('gallery_login') }}" method="POST">
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Unlock</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Khurram Rashid</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | Khurram Rashid</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gallery.css') }}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>Gallery</h1>
+    <p>Welcome! You are logged in with <strong>{{ access_level }}</strong> access.</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/experience">Experience</a>
+      <a href="/contact">Contact</a>
+      <a href="/gallery">Gallery</a>
+      <a href="{{ url_for('gallery_logout') }}" style="color: #ffe082;">Logout</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if access_level == 'admin' %}
+    <section class="gallery-controls">
+      <h3><i class="fas fa-plus-circle"></i> Create Empty Card</h3>
+      <form action="{{ url_for('add_card') }}" method="POST">
+        <input type="text" name="card_name" placeholder="New Card Name (e.g., Childhood)" required>
+        <input type="hidden" name="parent_id" value="None">
+        <button type="submit">Create Card</button>
+      </form>
+      
+      <hr style="margin: 1.5rem 0;">
+
+      <h3><i class="fas fa-folder-open"></i> Upload Folder as New Card</h3>
+      <form action="{{ url_for('upload_folder') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="folder_files" webkitdirectory multiple required>
+        <button type="submit">Upload Folder</button>
+      </form>
+      <small>Note: Folder upload is only supported on Chrome, Edge, and Firefox.</small>
+    </section>
+    {% endif %}
+
+    {% macro render_card(card, access_level) %}
+      <li class="card">
+        <div class="card-header">
+          {% if access_level == 'admin' %}
+            <form action="{{ url_for('edit_card', card_id=card.id) }}" method="POST" class="card-title-form">
+              <input type="text" name="card_name" value="{{ card.name }}">
+              <button type="submit" title="Save new name"><i class="fas fa-save"></i></button>
+            </form>
+          {% else %}
+            <h2><i class="fas fa-folder"></i> {{ card.name }}</h2>
+          {% endif %}
+          
+          {% if access_level == 'admin' %}
+          <form action="{{ url_for('delete_card', card_id=card.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this card and ALL its contents?');">
+            <button type="submit" class="delete-card-btn"><i class="fas fa-trash"></i> Delete Card</button>
+          </form>
+          {% endif %}
+        </div>
+
+        <div class="card-images">
+          {% for image in card.images %}
+            <div class="image-container">
+              <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" alt="Gallery Image" class="gallery-image">
+              
+              {% if access_level == 'admin' %}
+              <form action="{{ url_for('delete_image', image_id=image.id) }}" method="POST">
+                <button type="submit" class="delete-btn" title="Delete Image">X</button>
+              </form>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if access_level == 'admin' %}
+        <div class="card-controls-inner">
+          <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
+            <h3><i class="fas fa-upload"></i> Upload More Images</h3>
+            <input type="hidden" name="card_id" value="{{ card.id }}">
+            <input type="file" name="image" accept="image/*" required multiple>
+            <button type="submit">Upload Image(s)</button>
+          </form>
+
+          <hr style="margin: 1.5rem 0;">
+
+          <form action="{{ url_for('add_card') }}" method="POST">
+            <h3><i class="fas fa-plus"></i> Add a Nested Card</h3>
+            <input type="hidden" name="parent_id" value="{{ card.id }}">
+            <input type="text" name="card_name" placeholder="New nested card name" required>
+            <button type.submit">Add Nested Card</button>
+          </form>
+        </div>
+        {% endif %}
+
+        {% if card.children %}
+          <div class="nested-cards">
+            <h3>Sub-Cards:</h3>
+            <ul class="card-gallery">
+              {% for child_card in card.children %}
+                {{ render_card(child_card, access_level) }}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </li>
+    {% endmacro %}
+    <section class="gallery-section">
+      <ul class="card-gallery">
+        {% for card in cards %}
+          {{ render_card(card, access_level) }}
+        {% else %}
+          {% if access_level == 'admin' %}
+            <p>Your gallery is empty. Create your first card above!</p>
+          {% else %}
+             <p>The gallery is currently empty.</p>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 Khurram Rashid</p>
+  </footer>
+
+  <div id="lightbox" class="lightbox-overlay">
+    <span class="lightbox-close" id="lightbox-close-btn">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+  </div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      const closeBtn = document.getElementById("lightbox-close-btn");
+
+      // Find all gallery images
+      const galleryImages = document.querySelectorAll(".gallery-image");
+
+      galleryImages.forEach(img => {
+        img.addEventListener("click", () => {
+          // Get the full-size image src and open the lightbox
+          lightboxImg.src = img.src;
+          lightbox.style.display = "flex";
+        });
+      });
+
+      // Function to close the lightbox
+      function closeLightbox() {
+        lightbox.style.display = "none";
+      }
+
+      // Close when clicking the 'X'
+      closeBtn.addEventListener("click", closeLightbox);
+
+      // Close when clicking on the dark background
+      lightbox.addEventListener("click", (e) => {
+        // Only close if the click is on the overlay itself, not the image
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

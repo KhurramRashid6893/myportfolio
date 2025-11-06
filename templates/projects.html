@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Khurram Rashid</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>Projects</h1>
+    <p>Explore 35+ projects across AI, ML, Web, IoT, and more</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/experience">Experience</a>
+      <a href="/contact">Contact</a>
+      <a href="/gallery">Gallery</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-target="all">All</button>
+      <button class="filter-btn" data-target="web">Web Apps</button>
+      <button class="filter-btn" data-target="ml">ML & Data Science</button>
+      <button class="filter-btn" data-target="iot">IoT</button>
+      <button class="filter-btn" data-target="security">Cybersecurity</button>
+      <button class="filter-btn" data-target="research">Research</button>
+      <button class="filter-btn" data-target="sdg">SDGs</button>
+    </div>
+
+    <section id="web" class="project-section">
+      <h2><i class="fas fa-globe"></i> Web Applications</h2>
+      <ul>
+        <li>Fun Fact Generator WebApp (Flask + Render)</li>
+        <li>Test Your Knowledge WebApp (Flask + Render)</li>
+        <li>AI-Based Sustainable Product Recommender (Flask, Streamlit, ML)</li>
+        <li>Sentiment Analysis on Vaccination Tweets (LogReg, SVC, Gemini API)</li>
+        <li>Blog Website (MERN Stack – MongoDB, Express, React, Node.js)</li>
+        <li>Student Performance Predictor (Streamlit, Linear Regression)</li>
+        <li>Iris/Penguin/Glass Type Predictors (Streamlit + ML Models)</li>
+        <li>Census WebApp + Car Price Prediction (Flask + ML)</li>
+      </ul>
+    </section>
+
+    <section id="ml" class="project-section">
+      <h2><i class="fas fa-robot"></i> ML & Data Science</h2>
+      <ul>
+        <li>Movie Recommender System</li>
+        <li>Geospatial Analysis with Choropleth Maps</li>
+        <li>PCA, KNN Classification & Regression</li>
+        <li>Naive Bayes Classifier (GaussianNB)</li>
+        <li>ARIMA Time Series Forecasting</li>
+        <li>Collaborative Filtering</li>
+        <li>Climate Change Analysis (Pandas, Seaborn)</li>
+        <li>Hyperspectral Image Classification (PCA, kNN)</li>
+      </ul>
+    </section>
+
+    <section id="iot" class="project-section">
+      <h2><i class="fas fa-microchip"></i> IoT Projects</h2>
+      <ul>
+        <li>Smart Irrigation System (Cisco Packet Tracer)</li>
+        <li>RGB Color Controller using ESP32</li>
+        <li>Blinking Banner & Traffic Light Simulators (ESP32 + Arduino)</li>
+      </ul>
+    </section>
+
+    <section id="security" class="project-section">
+      <h2><i class="fas fa-shield-alt"></i> Cybersecurity</h2>
+      <ul>
+        <li>Phishing Website Detector (Flask + JSON)</li>
+        <li>Encryption Algorithm (Hashlib + Itertools)</li>
+        <li>IDOR Attack Simulation</li>
+        <li>Web Page Cloner (JavaScript + jQuery)</li>
+      </ul>
+    </section>
+
+    <section id="research" class="project-section">
+      <h2><i class="fas fa-flask"></i> Research Projects</h2>
+      <ul>
+        <li>Emotion AI & NLP for Misinformation Detection</li>
+        <li>5G-Enabled IoT for Smart Applications</li>
+        <li>Ghibli-Inspired AI Art in Digital Animation</li>
+      </ul>
+    </section>
+
+    <section id="sdg" class="project-section">
+    <h2><i class="fas fa-leaf"></i> UN SDG Projects</h2>
+    <ul>
+        <li>WebApp for SDG 1 – <strong>Subsidy Awareness App</strong></li>
+        <li>WebApp for SDG 2 – <strong>Excess Food Sharing Platform</strong></li>
+        <li>WebApp for SDG 3 – <strong>GoodHealthHub</strong></li>
+        <li>WebApp for SDG 4 – <strong>GoodHealthHub</strong></li>
+        <li>WebApp for SDG 5 – <strong>EmpowHer</strong></li>
+        <li>WebApp for SDG 6 – <strong>JalSwasthya (In Progress)</strong></li>
+    </ul>
+    </section>
+
+    
+  </main>
+
+  <footer>
+    <p>© 2025 Khurram Rashid | <a href="mailto:khurramrashid0786@gmail.com">khurramrashid0786@gmail.com</a></p>
+  </footer>
+
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectSections = document.querySelectorAll('.project-section');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const target = btn.getAttribute('data-target');
+
+        projectSections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === target || target === 'all') {
+            section.classList.add('active');
+          }
+        });
+      });
+    });
+
+    document.querySelector('[data-target="all"]').click();
+  </script>
+</body>
+</html>

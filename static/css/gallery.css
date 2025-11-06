@@ -1,0 +1,249 @@
+/* static/css/gallery.css */
+
+/* Login Page (remains the same) */
+.login-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: center;
+}
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.login-container button {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.flash-message {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  color: #fff;
+}
+.flash-error {
+  background: #e74c3c;
+}
+
+/* Gallery Controls (remains the same) */
+.gallery-controls {
+  background: #fff;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.gallery-controls h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+.gallery-controls form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.gallery-controls input[type="text"],
+.gallery-controls input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex-grow: 1;
+}
+.gallery-controls button {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.gallery-controls small {
+  display: block;
+  width: 100%;
+  color: #555;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Card Styling (REVERTED) */
+.card-gallery {
+  padding-left: 0;
+  list-style-type: none;
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  padding: 1.5rem; /* Padding is back! */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Card Header (REVERTED) */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+.card-title-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-title-form input[type="text"] {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary);
+  border: 1px solid transparent;
+  padding: 0.2rem;
+  border-radius: 5px;
+}
+.card-title-form input[type="text"]:focus {
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+}
+.card-title-form button {
+  background: #28a745;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+}
+.card-header h2 {
+  color: var(--primary);
+  margin: 0;
+  font-size: 1.8rem;
+}
+.card-header .delete-card-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Image Grid (REVERTED & UPDATED FOR NO-CROP) */
+.card-images {
+  display: grid;
+  /* Responsive grid: min 150px, max 1fr */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.image-container {
+  position: relative;
+  /* This creates the square box */
+  aspect-ratio: 1 / 1;
+  background: #f9f9f9;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  /* THIS IS THE KEY: Fits the image inside the box, no crop! */
+  object-fit: contain;
+  cursor: pointer; /* Show it's clickable */
+  transition: transform 0.2s ease-in-out;
+}
+
+.gallery-image:hover {
+  transform: scale(1.1); /* Simple hover zoom */
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.8;
+  z-index: 10; /* Be on top of the image */
+}
+.delete-btn:hover {
+  opacity: 1;
+}
+
+/* Controls inside card (REVERTED) */
+.card-controls-inner {
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+/* Nested cards (REVERTED) */
+.nested-cards {
+  margin-top: 1.5rem;
+  border-left: 3px solid #eee;
+  padding-left: 1.5rem;
+}
+.nested-cards h3 {
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+
+/* NEW: LIGHTBOX (CLICK-TO-ZOOM) STYLES 
+*/
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  /* Starts hidden */
+  display: none; 
+}
+
+.lightbox-content {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.lightbox-close:hover {
+  color: #ccc;
+}
